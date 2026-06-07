@@ -1,0 +1,34 @@
+[
+  {
+    "id": "case_003",
+    "title": "SPICE convergence failed after PDK corner switch",
+    "tags": ["simulation_convergence", "pdk_model_missing"],
+    "symptoms": "convergence not reached, missing model parameter, vth0, corner include",
+    "root_cause": "The simulator loaded a typical corner model while the netlist referenced a device parameter only defined in the low-power corner.",
+    "fix": "Verify the model include order and rerun with the intended PDK corner file before tuning timestep settings."
+  },
+  {
+    "id": "case_017",
+    "title": "Undefined subckt caused by missing standard-cell library include",
+    "tags": ["netlist_reference"],
+    "symptoms": "undefined subckt, cannot find cell, INV_X1, NAND2_X1",
+    "root_cause": "The generated netlist referenced cells from a library file that was not included in the simulator runset.",
+    "fix": "Add the standard-cell library netlist include before the top-level design netlist and rerun netlist elaboration."
+  },
+  {
+    "id": "case_021",
+    "title": "LVS mismatch from stale extracted layout database",
+    "tags": ["physical_verification"],
+    "symptoms": "lvs mismatch, short, open, extracted layout, calibre",
+    "root_cause": "The LVS job compared the latest schematic netlist against an older extracted layout database.",
+    "fix": "Regenerate extraction with the current rule deck and confirm the schematic/layout revision pair before rerunning LVS."
+  },
+  {
+    "id": "case_029",
+    "title": "EDA job failed because license feature was unavailable",
+    "tags": ["license_environment"],
+    "symptoms": "license checkout failed, feature not found, lmgrd, server",
+    "root_cause": "The requested simulator feature was not available on the configured license server.",
+    "fix": "Confirm license server reachability and feature name, then ask CAD/IT to inspect checkout usage and entitlement."
+  }
+]

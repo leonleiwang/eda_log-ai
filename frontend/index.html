@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EDA Log AI Workbench</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero-panel">
+      <div class="brand-row">
+        <div class="brand-mark" aria-hidden="true">EDA</div>
+        <div>
+          <p class="eyebrow">Local AI Triage Workbench</p>
+          <h1>EDA Log AI</h1>
+        </div>
+      </div>
+      <p class="hero-copy">离线可演示，也能接 FastAPI 和 qwen3-max。解析、分类、案例检索、LLM 总结各层分开，适合面试现场解释工程边界。</p>
+      <div class="status-strip">
+        <span id="apiStatus" class="status-pill status-pending">检测 API</span>
+        <span id="llmStatus" class="status-pill">LLM 可选</span>
+        <span class="status-pill">静态兜底</span>
+      </div>
+    </section>
+
+    <section class="workbench">
+      <aside class="input-pane glass">
+        <div class="pane-head">
+          <div>
+            <p class="eyebrow">Input</p>
+            <h2>日志输入</h2>
+          </div>
+          <button id="clearBtn" class="icon-button" type="button" title="清空日志" aria-label="清空日志">×</button>
+        </div>
+
+        <div class="sample-grid" role="group" aria-label="样例日志">
+          <button class="sample-button active" data-sample="spice" type="button">SPICE</button>
+          <button class="sample-button" data-sample="netlist" type="button">Netlist</button>
+          <button class="sample-button" data-sample="license" type="button">License</button>
+        </div>
+
+        <textarea id="logInput" spellcheck="false" aria-label="EDA 日志输入"></textarea>
+
+        <div class="control-grid">
+          <label class="toggle-row">
+            <input id="apiToggle" type="checkbox" checked>
+            <span>优先调用 FastAPI</span>
+          </label>
+          <label class="toggle-row">
+            <input id="llmToggle" type="checkbox">
+            <span>请求 qwen3-max 增强</span>
+          </label>
+        </div>
+
+        <label class="field-label" for="apiBase">API 地址</label>
+        <input id="apiBase" class="text-field" value="http://127.0.0.1:8000" aria-label="API 地址">
+
+        <button id="analyzeBtn" class="primary-button" type="button">
+          <span>Analyze Log</span>
+          <span class="button-hint">Ctrl + Enter</span>
+        </button>
+      </aside>
+
+      <section class="result-pane">
+        <div class="summary-grid">
+          <article class="metric-card glass">
+            <p>Risk</p>
+            <strong id="riskLevel">-</strong>
+          </article>
+          <article class="metric-card glass">
+            <p>Errors</p>
+            <strong id="errorCount">-</strong>
+          </article>
+          <article class="metric-card glass">
+            <p>Cases</p>
+            <strong id="caseCount">-</strong>
+          </article>
+        </div>
+
+        <article class="glass analysis-card">
+          <div class="pane-head">
+            <div>
+              <p class="eyebrow">Result</p>
+              <h2>分析摘要</h2>
+            </div>
+            <span id="sourceBadge" class="source-badge">Static</span>
+          </div>
+          <p id="summaryText" class="summary-text">选择样例或粘贴日志后开始分析。</p>
+          <div id="llmPanel" class="llm-panel hidden"></div>
+        </article>
+
+        <div class="detail-grid">
+          <article class="glass detail-card">
+            <h3>分类与证据</h3>
+            <div id="categoryList" class="stack-list"></div>
+          </article>
+
+          <article class="glass detail-card">
+            <h3>历史案例</h3>
+            <div id="caseList" class="stack-list"></div>
+          </article>
+        </div>
+
+        <article class="glass detail-card">
+          <h3>排查建议</h3>
+          <ol id="recommendationList" class="recommendations"></ol>
+        </article>
+
+        <article class="glass log-card">
+          <h3>关键日志行</h3>
+          <pre id="eventList"></pre>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <div class="tweaks">
+    <button id="themeBtn" type="button">切换外观</button>
+    <button id="densityBtn" type="button">密度</button>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

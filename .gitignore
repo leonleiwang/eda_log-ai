@@ -1,0 +1,11 @@
+.venv/
+.env
+.codex/
+.codex-plugin/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+run-api.log

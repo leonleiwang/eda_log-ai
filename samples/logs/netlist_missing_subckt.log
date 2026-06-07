@@ -1,0 +1,5 @@
+2026-06-07 10:31:18 [INFO] ngspice reading netlist ./build/top.sp
+2026-06-07 10:31:18 [INFO] include ./libs/io_cells.sp
+2026-06-07 10:31:19 [ERROR] Netlist parser: undefined subckt INV_X1 at instance U42
+2026-06-07 10:31:19 [ERROR] Cannot find cell NAND2_X1 referenced by top_level
+2026-06-07 10:31:20 [WARN] netlist elaboration stopped before transient analysis

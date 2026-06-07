@@ -1,0 +1,27 @@
+[project]
+name = "eda-log-ai"
+version = "0.1.0"
+description = "Offline EDA log triage assistant for interview demos and local engineering workflows."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+api = ["fastapi>=0.95", "uvicorn>=0.22"]
+test = ["pytest>=8.0"]
+
+[project.scripts]
+eda-log-ai = "eda_log_ai.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

@@ -1,0 +1,4 @@
+2026-06-07 11:22:11 [INFO] calibre DRC job submitted on host build-eda-02
+2026-06-07 11:22:12 [ERROR] License checkout failed: feature CALIBRE_DRC not found
+2026-06-07 11:22:12 [ERROR] lmgrd server returned checkout denied for user eda_demo
+2026-06-07 11:22:13 [WARN] DRC run aborted before loading rule deck

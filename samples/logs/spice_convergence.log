@@ -1,0 +1,6 @@
+2026-06-07 09:14:01 [INFO] spectre started with runset ./runsets/top_tran.scs
+2026-06-07 09:14:02 [WARN] PDK corner file lp_1p8.scs loaded after tt_1p8.scs
+2026-06-07 09:14:03 [WARN] Missing model parameter: vth0 in device nmos_1p8
+2026-06-07 09:14:06 [ERROR] SPICE simulation failed: convergence not reached at time=4.2ns
+2026-06-07 09:14:06 [ERROR] Newton iteration failed near instance XU_PLL.M1
+2026-06-07 09:14:07 [INFO] last accepted timestep was 1e-15
