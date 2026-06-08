@@ -241,11 +241,21 @@ function renderResult(result, source = "Static") {
   els.summaryText.textContent = result.summary || "No summary available.";
 
   if (result.llm_note || result.llm) {
+    const llmText = result.llm_note || result.llm;
     els.llmPanel.classList.remove("hidden");
-    els.llmPanel.textContent = result.llm_note || result.llm;
+    els.llmPanel.innerHTML = `
+      <div class="llm-panel-head">
+        <strong>qwen3-max 增强总结</strong>
+        <span>LLM layer</span>
+      </div>
+      <div class="llm-content">${formatAssistantText(llmText)}</div>
+    `;
+    if (source === "FastAPI") {
+      els.sourceBadge.textContent = "FastAPI + qwen3-max";
+    }
   } else {
     els.llmPanel.classList.add("hidden");
-    els.llmPanel.textContent = "";
+    els.llmPanel.innerHTML = "";
   }
 
   renderCategories(categories);
@@ -302,6 +312,15 @@ function escapeHtml(value) {
     '"': "&quot;",
     "'": "&#39;"
   })[char]);
+}
+
+function formatAssistantText(value) {
+  const escaped = escapeHtml(value);
+  return escaped
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/(?:^|\n)(\d+)\.\s+/g, "<br><span class=\"llm-step\">$1.</span> ")
+    .replace(/\n{2,}/g, "<br><br>")
+    .replace(/\n/g, "<br>");
 }
 
 init();

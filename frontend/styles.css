@@ -380,12 +380,49 @@ button:active {
 
 .llm-panel {
   margin-top: 16px;
-  padding: 14px;
-  border: 1px solid var(--line);
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, var(--line));
   border-radius: var(--radius-sm);
-  background: rgba(17, 124, 139, 0.08);
+  background: linear-gradient(180deg, rgba(17, 124, 139, 0.13), rgba(17, 124, 139, 0.06));
   color: var(--muted);
   line-height: 1.65;
+}
+
+.llm-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid color-mix(in srgb, var(--primary) 24%, var(--line));
+  color: var(--text);
+  background: rgba(17, 124, 139, 0.10);
+}
+
+.llm-panel-head span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  color: var(--primary-strong);
+  background: rgba(255, 255, 255, 0.48);
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.llm-content {
+  padding: 14px;
+}
+
+.llm-content strong {
+  color: var(--text);
+}
+
+.llm-step {
+  color: var(--primary-strong);
+  font-weight: 780;
 }
 
 .hidden {
