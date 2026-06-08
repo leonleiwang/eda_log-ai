@@ -329,7 +329,10 @@ function formatAssistantText(value) {
 function renderLlmContent(value) {
   const parsed = parseAssistantJson(value);
   if (!parsed) {
-    return `<div class="llm-fallback">${formatAssistantText(value)}</div>`;
+    return `
+      <div class="llm-fallback-note">模型返回了非标准 JSON，已使用可读格式展示原始结果。</div>
+      <pre class="llm-json-fallback">${escapeHtml(prettyJsonLike(value))}</pre>
+    `;
   }
 
   return `
@@ -355,6 +358,27 @@ function parseAssistantJson(value) {
     } catch (_nestedError) {
       return null;
     }
+  }
+}
+
+function prettyJsonLike(value) {
+  const text = String(value)
+    .trim()
+    .replace(/^```json\s*/i, "")
+    .replace(/^```\s*/i, "")
+    .replace(/```$/i, "")
+    .trim();
+
+  try {
+    return JSON.stringify(JSON.parse(text), null, 2);
+  } catch (_error) {
+    return text
+      .replace(/\{\s*/g, "{\n  ")
+      .replace(/\[\s*/g, "[\n    ")
+      .replace(/\s*\],\s*/g, "\n  ],\n  ")
+      .replace(/\s*\}\s*/g, "\n}")
+      .replace(/,\s*"(?=[a-z_]+":)/gi, ',\n  "')
+      .replace(/",\s*"/g, '",\n    "');
   }
 }
 

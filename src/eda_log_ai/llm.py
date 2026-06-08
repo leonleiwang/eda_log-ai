@@ -67,7 +67,7 @@ def enhance_with_qwen(result: AnalysisResult, *, model: str = DEFAULT_QWEN_MODEL
     if not choices:
         return "LLM enhancement returned no choices."
     message = choices[0].get("message", {})
-    return str(message.get("content") or "LLM enhancement returned an empty message.")
+    return _pretty_json_or_text(str(message.get("content") or "LLM enhancement returned an empty message."))
 
 
 def _api_key() -> str:
@@ -80,3 +80,13 @@ def default_model() -> str:
 
 def _base_url() -> str:
     return get_setting("QWEN_BASE_URL", DEFAULT_QWEN_BASE_URL)
+
+
+def _pretty_json_or_text(value: str) -> str:
+    text = value.strip()
+    if text.startswith("```"):
+        text = text.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+    try:
+        return json.dumps(json.loads(text), ensure_ascii=False, indent=2)
+    except json.JSONDecodeError:
+        return value
