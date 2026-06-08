@@ -63,6 +63,8 @@ const els = {
   densityBtn: document.querySelector("#densityBtn")
 };
 
+let currentModel = "qwen3-max";
+
 function init() {
   els.logInput.value = demoSamples.spice;
   bindEvents();
@@ -110,7 +112,8 @@ async function detectApi() {
     const configResponse = await fetch(`${apiBase()}/config`, { cache: "no-store" }).catch(() => null);
     if (configResponse && configResponse.ok) {
       const config = await configResponse.json();
-      els.llmStatus.textContent = config.llm_available ? "qwen3-max 就绪" : "LLM 未启用";
+      currentModel = config.default_model || currentModel;
+      els.llmStatus.textContent = config.llm_available ? `${currentModel} 就绪` : "LLM 未启用";
       els.llmStatus.className = `status-pill ${config.llm_available ? "status-ok" : "status-off"}`;
     }
     setApiStatus("ok", "FastAPI 在线");
@@ -132,7 +135,7 @@ async function analyze() {
       const response = await fetch(`${apiBase()}/analyze`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ log_text: logText, use_llm: els.llmToggle.checked, model: "qwen3-max" })
+        body: JSON.stringify({ log_text: logText, use_llm: els.llmToggle.checked, model: currentModel })
       });
       if (!response.ok) throw new Error(`Analyze failed: HTTP ${response.status}`);
       const result = await response.json();
@@ -245,13 +248,13 @@ function renderResult(result, source = "Static") {
     els.llmPanel.classList.remove("hidden");
     els.llmPanel.innerHTML = `
       <div class="llm-panel-head">
-        <strong>qwen3-max 增强总结</strong>
-        <span>LLM layer</span>
+        <strong>大模型增强总结</strong>
+        <span class="model-chip">当前模型：${escapeHtml(currentModel)}</span>
       </div>
       <div class="llm-content">${formatAssistantText(llmText)}</div>
     `;
     if (source === "FastAPI") {
-      els.sourceBadge.textContent = "FastAPI + qwen3-max";
+      els.sourceBadge.textContent = "FastAPI + LLM";
     }
   } else {
     els.llmPanel.classList.add("hidden");
