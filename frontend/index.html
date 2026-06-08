@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>EDA Log AI Workbench</title>
-  <link rel="stylesheet" href="./styles.css?v=20260608-2">
+  <link rel="stylesheet" href="./styles.css?v=20260608-3">
 </head>
 <body>
   <main class="app-shell">
@@ -49,12 +49,13 @@
           </label>
           <label class="toggle-row">
             <input id="llmToggle" type="checkbox">
-            <span>请求 qwen3-max 增强</span>
+            <span>请求大模型增强</span>
           </label>
         </div>
 
-        <label class="field-label" for="apiBase">API 地址</label>
+        <label class="field-label" for="apiBase">分析服务地址</label>
         <input id="apiBase" class="text-field" value="http://127.0.0.1:8000" aria-label="API 地址">
+        <p class="field-hint">连接本地或远程 FastAPI 后端；大模型地址与密钥由后端安全管理。</p>
 
         <button id="analyzeBtn" class="primary-button" type="button">
           <span>Analyze Log</span>
@@ -120,6 +121,6 @@
     <button id="densityBtn" type="button">密度</button>
   </div>
 
-  <script src="./app.js?v=20260608-2"></script>
+  <script src="./app.js?v=20260608-3"></script>
 </body>
 </html>

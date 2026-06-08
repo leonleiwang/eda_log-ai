@@ -298,6 +298,13 @@ textarea:focus,
   font-weight: 760;
 }
 
+.field-hint {
+  margin: -6px 0 0;
+  color: var(--faint);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
 .text-field {
   width: 100%;
   min-height: 42px;

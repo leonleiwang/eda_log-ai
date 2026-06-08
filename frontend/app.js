@@ -113,14 +113,14 @@ async function detectApi() {
     if (configResponse && configResponse.ok) {
       const config = await configResponse.json();
       currentModel = config.default_model || currentModel;
-      els.llmStatus.textContent = config.llm_available ? `${currentModel} 就绪` : "LLM 未启用";
+      els.llmStatus.textContent = config.llm_available ? "大模型连接就绪" : "大模型未连接";
       els.llmStatus.className = `status-pill ${config.llm_available ? "status-ok" : "status-off"}`;
     }
     setApiStatus("ok", "FastAPI 在线");
     return true;
   } catch (_error) {
     setApiStatus("off", "静态兜底");
-    els.llmStatus.textContent = "LLM 静默";
+    els.llmStatus.textContent = "大模型未连接";
     els.llmStatus.className = "status-pill status-off";
     return false;
   }
