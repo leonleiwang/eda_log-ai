@@ -251,7 +251,7 @@ function renderResult(result, source = "Static") {
         <strong>大模型增强总结</strong>
         <span class="model-chip">当前模型：${escapeHtml(currentModel)}</span>
       </div>
-      <div class="llm-content">${formatAssistantText(llmText)}</div>
+      <div class="llm-content">${renderLlmContent(llmText)}</div>
     `;
     if (source === "FastAPI") {
       els.sourceBadge.textContent = "FastAPI + LLM";
@@ -324,6 +324,59 @@ function formatAssistantText(value) {
     .replace(/(?:^|\n)(\d+)\.\s+/g, "<br><span class=\"llm-step\">$1.</span> ")
     .replace(/\n{2,}/g, "<br><br>")
     .replace(/\n/g, "<br>");
+}
+
+function renderLlmContent(value) {
+  const parsed = parseAssistantJson(value);
+  if (!parsed) {
+    return `<div class="llm-fallback">${formatAssistantText(value)}</div>`;
+  }
+
+  return `
+    <div class="llm-summary">${escapeHtml(parsed.summary || "大模型已完成辅助总结。")}</div>
+    ${renderLlmList("确认事实", parsed.confirmed_facts)}
+    ${renderLlmList("可能根因", parsed.root_cause_hypothesis)}
+    ${renderLlmList("下一步排查", parsed.next_steps)}
+    ${renderLlmNote("升级建议", parsed.escalation)}
+    ${renderLlmNote("注意事项", parsed.caveat)}
+  `;
+}
+
+function parseAssistantJson(value) {
+  const text = String(value).trim().replace(/^```json\s*/i, "").replace(/^```\s*/i, "").replace(/```$/i, "").trim();
+  try {
+    return JSON.parse(text);
+  } catch (_error) {
+    const start = text.indexOf("{");
+    const end = text.lastIndexOf("}");
+    if (start === -1 || end === -1 || end <= start) return null;
+    try {
+      return JSON.parse(text.slice(start, end + 1));
+    } catch (_nestedError) {
+      return null;
+    }
+  }
+}
+
+function renderLlmList(title, items) {
+  const list = Array.isArray(items) ? items.filter(Boolean) : [];
+  if (!list.length) return "";
+  return `
+    <section class="llm-section">
+      <h4>${escapeHtml(title)}</h4>
+      <ul>${list.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+    </section>
+  `;
+}
+
+function renderLlmNote(title, value) {
+  if (!value) return "";
+  return `
+    <section class="llm-section llm-note">
+      <h4>${escapeHtml(title)}</h4>
+      <p>${escapeHtml(value)}</p>
+    </section>
+  `;
 }
 
 init();

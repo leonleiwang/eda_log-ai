@@ -415,11 +415,54 @@ button:active {
 }
 
 .llm-content {
+  display: grid;
+  gap: 12px;
   padding: 14px;
 }
 
 .llm-content strong {
   color: var(--text);
+}
+
+.llm-summary {
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--primary) 18%, var(--line));
+  border-radius: 12px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.36);
+  font-weight: 680;
+  line-height: 1.6;
+}
+
+.llm-section {
+  display: grid;
+  gap: 8px;
+}
+
+.llm-section h4 {
+  margin: 0;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 780;
+}
+
+.llm-section ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.llm-section li,
+.llm-note p,
+.llm-fallback {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.llm-note p {
+  margin: 0;
 }
 
 .llm-step {

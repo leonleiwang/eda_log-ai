@@ -28,8 +28,15 @@ def enhance_with_qwen(result: AnalysisResult, *, model: str = DEFAULT_QWEN_MODEL
             {
                 "role": "system",
                 "content": (
-                    "You are an EDA log triage assistant. Summarize only from structured parser output. "
-                    "Separate confirmed facts from hypotheses. Keep the answer concise and practical."
+                    "你是一个 EDA 日志分析助手。只能基于用户提供的结构化 parser 输出回答，"
+                    "不要编造日志中没有的事实。请用中文输出，并且只返回一个 JSON 对象，不要使用 Markdown。"
+                    "JSON 必须包含这些字段："
+                    "summary: 一句话中文摘要；"
+                    "confirmed_facts: 字符串数组，列出已经由 parser/case 库确认的事实，最多 4 条；"
+                    "root_cause_hypothesis: 字符串数组，列出可能根因，最多 3 条；"
+                    "next_steps: 字符串数组，列出下一步排查动作，最多 5 条；"
+                    "escalation: 一句话说明应该升级给谁；"
+                    "caveat: 一句话说明这是辅助 triage，修改工程文件前需要人工确认。"
                 ),
             },
             {
@@ -39,6 +46,7 @@ def enhance_with_qwen(result: AnalysisResult, *, model: str = DEFAULT_QWEN_MODEL
         ],
         "temperature": 0.2,
         "max_tokens": 700,
+        "response_format": {"type": "json_object"},
     }
     request = urllib.request.Request(
         f"{_base_url().rstrip('/')}/chat/completions",
